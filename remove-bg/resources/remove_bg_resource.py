@@ -6,6 +6,7 @@ import io
 
 
 # TODO => handle properly the extension of the file
+# => allow to donwload jpg or png up to the user
 
 router = APIRouter()
 
