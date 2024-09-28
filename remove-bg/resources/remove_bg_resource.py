@@ -1,12 +1,8 @@
 
 from fastapi import APIRouter, File, Form, UploadFile
-from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from services import remove_bg_service
 import io
-
-
-# TODO => handle properly the extension of the file
-# => allow to donwload jpg or png up to the user
 
 router = APIRouter()
 
@@ -20,16 +16,25 @@ async def whisper_transcribe(
 
     if ( file == None and ( media_url == None or media_url == "" ) ):
         return JSONResponse(content={"error": "No file or media_url provided"}, status_code=400)
-    
-    if ( file != None and file.content_type not in allowed_types ):
-        return JSONResponse(content={"error": "Invalid file type"}, status_code=400)
+
 
     try:
-        output_image = remove_bg_service.remove_bg(file, media_url)
+        output_image, content_type = remove_bg_service.remove_bg(file, media_url, allowed_types)
         img_io = io.BytesIO()
-        output_image.save(img_io, format='PNG')
-        img_io.seek(0)
 
-        return StreamingResponse(img_io, media_type="image/png")
+        if "png" in content_type or "PNG" in content_type:
+            output_image.save(img_io, format='PNG')
+            img_io.seek(0)
+        elif "jpeg" in content_type or "JPEG" in content_type:
+            if output_image.mode == "RGBA":
+                output_image = output_image.convert("RGB")  # Convertir en RGB
+            output_image.save(img_io, format='JPEG')
+            img_io.seek(0)
+        else:
+            img_io.seek(0)
+            raise Exception(f"Invalid content type: {content_type}")
+
+
+        return StreamingResponse(img_io, media_type=f"{content_type}")
     except Exception as e:
         return JSONResponse(content={"error": str(e)}, status_code=400)
