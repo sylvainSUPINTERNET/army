@@ -6,24 +6,30 @@ from io import BytesIO
 
 router = APIRouter()
 
-allowed_types = ["image/png", "image/jpg", "image/jpeg"]
 
 @router.post("/download")
-async def whisper_transcribe(file: UploadFile = File(None), type: str = Form(None)):
+async def download(file: UploadFile = File(None), type: str = Form(None)):
     input_image = Image.open(BytesIO(file.file.read())).convert('RGB')
     output_buffer = BytesIO()
 
     media_type = ""
     extension = ""
+
+    if type not in ["png","webp"]:
+        return JSONResponse(content={"error": "Invalid type provided"}, status_code=400)
+
     if type == "png":
         input_image.save(output_buffer, format="PNG", quality=100)
         media_type = "image/png"
         extension = "png"
+        
     if type == "webp":
         input_image.save(output_buffer, format="WEBP", quality=100)
         media_type = "image/webp"
         extension = "webp"
     output_buffer.seek(0)
+
+    print(output_buffer)
     
     return StreamingResponse(output_buffer, media_type=media_type, headers={"Content-Disposition": f"attachment; filename={str(uuid.uuid4())}.{extension}"})
 
