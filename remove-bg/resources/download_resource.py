@@ -3,12 +3,16 @@ from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import JSONResponse, StreamingResponse
 from PIL import Image
 from io import BytesIO
+import logging
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 
 @router.post("/download")
 async def download(file: UploadFile = File(None), type: str = Form(None)):
+
+    logger.info("[DOWNLOAD-SVC] called")
     input_image = Image.open(BytesIO(file.file.read())).convert('RGB')
     output_buffer = BytesIO()
 

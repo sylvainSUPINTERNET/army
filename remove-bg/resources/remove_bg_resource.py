@@ -3,16 +3,20 @@ from fastapi import APIRouter, File, Form, UploadFile
 from fastapi.responses import JSONResponse, StreamingResponse
 from services import remove_bg_service
 import io
+import logging
 
 router = APIRouter()
+logger = logging.getLogger(__name__)
 
 allowed_types = ["image/png", "image/jpg", "image/jpeg", "image/webp"]
 
 @router.post("/removebg")
-async def whisper_transcribe(
+async def remove_bg(
         file: UploadFile = File(None), 
         media_url: str = Form(None)
     ):
+
+    logger.info("[REMOVEBG-SVC] called")
 
     if ( file == None and ( media_url == None or media_url == "" ) ):
         return JSONResponse(content={"error": "No file or media_url provided"}, status_code=400)
@@ -34,4 +38,5 @@ async def whisper_transcribe(
 
         return StreamingResponse(img_io, media_type=f"{content_type}")
     except Exception as e:
+        logger.error(f"Error: {str(e)}")
         return JSONResponse(content={"error": str(e)}, status_code=400)
