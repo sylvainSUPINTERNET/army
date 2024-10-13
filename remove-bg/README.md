@@ -21,6 +21,9 @@ User can :
 
 python -m pip install -r requirements.txt
 
+
+fastapi dev
+
 ````
 
 ## Docker
