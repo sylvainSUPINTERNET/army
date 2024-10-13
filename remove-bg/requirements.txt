@@ -1,4 +1,5 @@
 rembg==2.0.59
+rembg[cli]==2.0.59
 pillow==10.4.0
 fastapi[standard]==0.115.0
 python-dotenv==1.0.1
