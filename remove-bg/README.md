@@ -28,6 +28,13 @@ fastapi dev
 
 ## Docker
 
+
 ```` bash 
- # TODO
+
+docker build -t remove-bg
+
+
+docker run -p 8000:10000 -e U2NET_HOME='/root/.u2net/' remove-bg
+
+
 ````
