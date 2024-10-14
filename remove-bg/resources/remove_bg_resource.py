@@ -5,6 +5,7 @@ from services import remove_bg_service
 import io
 import logging
 
+
 router = APIRouter()
 logger = logging.getLogger(__name__)
 

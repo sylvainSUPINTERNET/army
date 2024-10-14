@@ -1,8 +1,11 @@
 from fastapi import UploadFile
-from rembg import remove
+from rembg import remove, new_session
 from PIL import Image
 import requests
 from io import BytesIO
+
+
+session = new_session("silueta")
 
 def remove_bg(file: UploadFile, media_url: str, allowed_types: list[str]):
 
@@ -15,7 +18,7 @@ def remove_bg(file: UploadFile, media_url: str, allowed_types: list[str]):
             raise Exception(f"Invalid content type: {content_type}")
 
         input_image = Image.open(BytesIO(file.file.read())).convert('RGB')
-        output_image = remove(input_image)
+        output_image = remove(input_image, session=session)
         return output_image, file.content_type
 
 
@@ -32,5 +35,5 @@ def remove_bg(file: UploadFile, media_url: str, allowed_types: list[str]):
 
         input_image = Image.open(BytesIO(response.content)).convert('RGB')
 
-        output_image = remove(input_image)
+        output_image = remove(input_image, session=session)
         return output_image, content_type
