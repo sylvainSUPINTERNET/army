@@ -1,3 +1,4 @@
+# Can't use alpine due to onnxruntime not compatible with musl ...
 FROM python:3.12-slim
 
 WORKDIR /remove-bg
@@ -15,6 +16,7 @@ RUN pip install --no-cache-dir --upgrade -r /remove-bg/requirements.txt \
 
 COPY . /remove-bg/app
 
+# defaut port for Render
 EXPOSE 10000
 
 CMD ["fastapi", "run", "app/main.py", "--port", "10000"]

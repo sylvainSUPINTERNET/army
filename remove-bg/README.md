@@ -31,10 +31,10 @@ fastapi dev
 
 ```` bash 
 
-docker build -t remove-bg
+docker build -t sylvaindev/army-background-remove:1.0.0 .
 
+docker run -p 8000:10000 -e U2NET_HOME='/root/.u2net/' sylvaindev/army-background-remove:1.0.0
 
-docker run -p 8000:10000 -e U2NET_HOME='/root/.u2net/' remove-bg
-
+docker push sylvaindev/army-background-remove:1.0.0
 
 ````
