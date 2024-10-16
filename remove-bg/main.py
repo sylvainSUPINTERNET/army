@@ -17,4 +17,3 @@ app.include_router(prefix="/api", router=remove_bg_resource.router)
 app.include_router(prefix="/api", router=download_resource.router)
 app.include_router(router=monitor_resource.router)
  
-
