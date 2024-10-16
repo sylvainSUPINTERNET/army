@@ -12,6 +12,9 @@ class CORSMiddleware(BaseHTTPMiddleware):
         allow_origin = os.getenv("CORS_UI_ORIGIN", "*")
         
         response = await call_next(request)
+
+        # Keep in mind 
+        # Can't use wildcard '*' for 'Access-Control-Allow-Origin' with allow-credentials set to true
         
         response.headers['Access-Control-Allow-Origin'] = allow_origin
         response.headers['Access-Control-Allow-Credentials'] = 'true' 
