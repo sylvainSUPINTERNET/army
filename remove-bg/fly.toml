@@ -22,4 +22,11 @@ primary_region = 'cdg'
   cpus = 1
 
 [env]
-  CORS_UI_ORIGIN = 'https://remove-bg-ui.vercel.app'
+  CORS_UI_ORIGIN = 'https://remove-bg-ui.vercel.app,https://bg-remove.app,www.bg-remove.app'
+
+[[http_service.checks]]
+  grace_period = "10s"
+  interval = "1m0s"
+  method = "GET"
+  path = "/health"
+  timeout = "5s"

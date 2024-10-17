@@ -8,13 +8,15 @@ For some reason starlette / fastapi middleware cors built-in is not working ...
 """
 class CORSMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request, call_next):
-
-        allow_origin = os.getenv("CORS_UI_ORIGIN", "*")
+        #allow_origin = os.getenv("CORS_UI_ORIGIN", "*")
+        if "CORS_UI_ORIGIN" in os.environ:
+            allow_origin = os.getenv("CORS_UI_ORIGIN").split(",")
+        else:
+            # note;
+            # Can't use wildcard '*' for 'Access-Control-Allow-Origin' with allow-credentials set to true
+            allow_origin = "*"
         
         response = await call_next(request)
-
-        # Keep in mind 
-        # Can't use wildcard '*' for 'Access-Control-Allow-Origin' with allow-credentials set to true
         
         response.headers['Access-Control-Allow-Origin'] = allow_origin
         response.headers['Access-Control-Allow-Credentials'] = 'true' 
