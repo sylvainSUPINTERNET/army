@@ -3,6 +3,7 @@ from middlewares.CORSMiddleware import CORSMiddleware
 import logging
 from dotenv import load_dotenv
 from resources import download_resource, monitor_resource, remove_bg_resource
+import os
 
 load_dotenv()
 
