@@ -20,7 +20,7 @@ primary_region = 'cdg'
 
 
 [[vm]]
-  memory = '1gb'
+  memory = '256mb' #'1gb'
   cpu_kind = 'shared'
   cpus = 1
 
@@ -28,7 +28,7 @@ primary_region = 'cdg'
   CORS_UI_ORIGIN = 'https://remove-bg-ui.vercel.app,https://bg-remove.app,https://www.bg-remove.app'
 
 [[http_service.checks]]
-  grace_period = "30s"
+  grace_period = "2m0s"
   interval = "10s" # "1m0s"
   method = "GET"
   path = "/health"
