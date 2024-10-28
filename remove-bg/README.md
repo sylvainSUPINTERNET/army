@@ -37,4 +37,5 @@ docker run -p 8000:10000 -e U2NET_HOME='/root/.u2net/' sylvaindev/army-backgroun
 
 docker push sylvaindev/army-background-remove:1.0.0
 
+
 ````
